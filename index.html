@@ -13,7 +13,7 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #fff; /* Fondo blanco */
+      background-color: #fff;
       font-family: 'Inter', sans-serif;
       margin: 0;
       color: #333;
@@ -25,7 +25,7 @@
       font-size: 5rem;
       font-weight: 900;
       margin: 1rem 0;
-      color: #000; /* Texto negro */
+      color: #000;
     }
     #pomodoro-clock-actions button {
       background-color: #000;
@@ -38,8 +38,9 @@
       font-weight: 100;
       transition: background-color 0.3s, color 0.3s;
       margin: 0 0.5rem;
+      width: 120px; /* Ancho fijo */
+      box-sizing: border-box;
     }
-    /* Efecto de hover para botones */
     #pomodoro-clock-actions button:hover {
       background-color: #fff;
       color: #000;
@@ -62,24 +63,21 @@
   </div>
 
   <script>
-    // JavaScript para la funcionalidad Pomodoro simplificada
     const pomodoroTimer = document.getElementById("pomodoro-timer");
     const playIcon = document.getElementById("play-icon");
     const pauseIcon = document.getElementById("pause-icon");
     const startButton = document.getElementById("pomodoro-start");
     const stopButton = document.getElementById("pomodoro-stop");
-    let timeLeft = 25 * 60; // Tiempo inicial: 25 minutos
+    let timeLeft = 25 * 60;
     let timerInterval = null;
     let isRunning = false;
 
-    // Cambia la visualización del temporizador
     function updateTimerDisplay() {
       const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
       const seconds = String(timeLeft % 60).padStart(2, "0");
       pomodoroTimer.textContent = `${minutes}:${seconds}`;
     }
 
-    // Alternar el temporizador (inicio/pausa)
     function toggleTimer() {
       if (isRunning) {
         clearInterval(timerInterval);
@@ -103,21 +101,18 @@
       }
     }
 
-    // Detener el temporizador y resetear
     function stopTimer() {
       clearInterval(timerInterval);
       isRunning = false;
       playIcon.classList.remove("hidden");
       pauseIcon.classList.add("hidden");
-      timeLeft = 25 * 60; // Restablecer a 25 minutos
+      timeLeft = 25 * 60;
       updateTimerDisplay();
     }
 
-    // Listeners para los botones
     startButton.addEventListener("click", toggleTimer);
     stopButton.addEventListener("click", stopTimer);
 
-    // Inicializar la pantalla
     updateTimerDisplay();
   </script>
 </body>

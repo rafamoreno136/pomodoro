@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temporizador Pomodoro Simplificado</title>
+  <!-- Importar la fuente "Inter" desde Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* Estilos CSS */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #fff; /* Fondo blanco */
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      color: #333;
+    }
+    #pomodoro-container {
+      text-align: center;
+    }
+    #pomodoro-timer {
+      font-size: 5rem;
+      font-weight: 900;
+      margin: 1rem 0;
+      color: #000; /* Texto negro */
+    }
+    #pomodoro-clock-actions button {
+      background-color: #000;
+      color: #fff;
+      border: 2px solid #000;
+      border-radius: 25px;
+      padding: 0.5rem 1.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 100;
+      transition: background-color 0.3s, color 0.3s;
+      margin: 0 0.5rem;
+    }
+    /* Efecto de hover para botones */
+    #pomodoro-clock-actions button:hover {
+      background-color: #fff;
+      color: #000;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="pomodoro-container">
+    <div id="pomodoro-timer">25:00</div>
+    <div id="pomodoro-clock-actions">
+      <button id="pomodoro-start" class="btn">
+        <span id="play-icon">Iniciar</span>
+        <span class="hidden" id="pause-icon">Pausar</span>
+      </button>
+      <button id="pomodoro-stop" class="btn">Reiniciar</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript para la funcionalidad Pomodoro simplificada
+    const pomodoroTimer = document.getElementById("pomodoro-timer");
+    const playIcon = document.getElementById("play-icon");
+    const pauseIcon = document.getElementById("pause-icon");
+    const startButton = document.getElementById("pomodoro-start");
+    const stopButton = document.getElementById("pomodoro-stop");
+    let timeLeft = 25 * 60; // Tiempo inicial: 25 minutos
+    let timerInterval = null;
+    let isRunning = false;
+
+    // Cambia la visualización del temporizador
+    function updateTimerDisplay() {
+      const minutes = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+      const seconds = String(timeLeft % 60).padStart(2, "0");
+      pomodoroTimer.textContent = `${minutes}:${seconds}`;
+    }
+
+    // Alternar el temporizador (inicio/pausa)
+    function toggleTimer() {
+      if (isRunning) {
+        clearInterval(timerInterval);
+        isRunning = false;
+        playIcon.classList.remove("hidden");
+        pauseIcon.classList.add("hidden");
+      } else {
+        timerInterval = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            updateTimerDisplay();
+          } else {
+            clearInterval(timerInterval);
+            isRunning = false;
+            alert("¡Tiempo terminado!");
+          }
+        }, 1000);
+        isRunning = true;
+        playIcon.classList.add("hidden");
+        pauseIcon.classList.remove("hidden");
+      }
+    }
+
+    // Detener el temporizador y resetear
+    function stopTimer() {
+      clearInterval(timerInterval);
+      isRunning = false;
+      playIcon.classList.remove("hidden");
+      pauseIcon.classList.add("hidden");
+      timeLeft = 25 * 60; // Restablecer a 25 minutos
+      updateTimerDisplay();
+    }
+
+    // Listeners para los botones
+    startButton.addEventListener("click", toggleTimer);
+    stopButton.addEventListener("click", stopTimer);
+
+    // Inicializar la pantalla
+    updateTimerDisplay();
+  </script>
+</body>
+</html>
